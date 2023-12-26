@@ -1,11 +1,11 @@
-import Main from "./pages/Home";
+import Router from "./shared/Router";
 
 function App() {
-  return (
-    <>
-      <Main />
-    </>
-  );
+    return (
+        <>
+            <Router />
+        </>
+    );
 }
 
 export default App;
