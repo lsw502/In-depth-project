@@ -1,11 +1,11 @@
-import Main from "./pages/Home";
-
+import Router from "./shared/Router";
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 function App() {
   return (
-    <>
-      <Main />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Router />
+    </QueryClientProvider>
   );
 }
-
 export default App;
