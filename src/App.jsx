@@ -1,10 +1,16 @@
-import Router from "./shared/Router";
+import { RecoilRoot } from 'recoil';
+import Router from './shared/Router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
     return (
-        <>
-            <Router />
-        </>
+        <RecoilRoot>
+            <QueryClientProvider client={queryClient}>
+                <Router />
+            </QueryClientProvider>
+        </RecoilRoot>
     );
 }
 
