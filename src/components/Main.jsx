@@ -8,6 +8,7 @@ import {
   setSortBy,
 } from "../store/slice";
 import MovieCard from "./MovieCard";
+import * as St from "../components/styles";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -106,11 +107,10 @@ const Main = () => {
     });
 
   return (
-    <div>
-      <h1>Main Component</h1>
-      <div>
-        <label htmlFor="genre">장르 선택: </label>
-        <select
+    <St.Container>
+      <St.SelectBox>
+        <St.Label htmlFor="genre">장르 선택: </St.Label>
+        <St.Select
           id="genre"
           onChange={(e) => handleGenreChange(Number(e.target.value))}
         >
@@ -120,33 +120,23 @@ const Main = () => {
               {genre.name}
             </option>
           ))}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="sort">정렬 선택: </label>
-        <select id="sort" onChange={(e) => handleSortChange(e.target.value)}>
+        </St.Select>
+        <St.Label htmlFor="sort">정렬 선택: </St.Label>
+        <St.Select id="sort" onChange={(e) => handleSortChange(e.target.value)}>
           <option value="popularity.desc">인기순</option>
           <option value="vote_average.desc">평점순</option>
           <option value="first_air_date.desc">신작순</option>
-        </select>
-      </div>
-      <div className="movie-list" style={styles.movieList}>
+        </St.Select>
+      </St.SelectBox>
+      <St.MovieList>
         {filteredMovies &&
           filteredMovies.map((item) => (
             <MovieCard key={item.id} movie={item} genres={genreData} />
           ))}
-        <button onClick={handleLoadMore}>더보기</button>
-      </div>
-    </div>
+      </St.MovieList>
+      <St.LoadMoreButton onClick={handleLoadMore}>더보기</St.LoadMoreButton>
+    </St.Container>
   );
-};
-
-const styles = {
-  movieList: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
 };
 
 export default Main;

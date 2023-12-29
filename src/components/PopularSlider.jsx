@@ -1,11 +1,11 @@
-// PopularSlider.jsx
+import * as St from "../components/styles";
 import React, { useEffect, useState } from "react";
-import MovieCard from "./MovieCard";
 
 const PopularSlider = () => {
   const [popularMovies, setPopularMovies] = useState([]);
   const [genres, setGenres] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
@@ -66,32 +66,49 @@ const PopularSlider = () => {
     fetchGenres();
   }, []);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      handleNextSlide();
+    }, 3000);
+
+    return () => clearInterval(intervalId);
+  }, [popularMovies, currentIndex]);
+
   const handleNextSlide = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex + 1 < popularMovies.length ? prevIndex + 1 : 0
     );
-  };
-
-  const handlePrevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - 1 >= 0 ? prevIndex - 1 : popularMovies.length - 1
+    setActiveTab((prevIndex) =>
+      prevIndex + 1 < popularMovies.length ? prevIndex + 1 : 0
     );
   };
 
+  // const handlePrevSlide = () => {
+  //   setCurrentIndex((prevIndex) =>
+  //     prevIndex - 1 >= 0 ? prevIndex - 1 : popularMovies.length - 1
+  //   );
+  //   setActiveTab((prevIndex) =>
+  //     prevIndex - 1 >= 0 ? prevIndex - 1 : popularMovies.length - 1
+  //   );
+  // };
+
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+    setCurrentIndex(index);
+  };
+
   return (
-    <div style={styles.container}>
-      <h2>인기작 슬라이더</h2>
-      <div className="popular-slider" style={styles.popularSlider}>
+    <St.SlideContainer>
+      <St.SlidePopularSlider>
         {popularMovies.length > 0 && genres.length > 0 && (
-          <div style={styles.movieContainer}>
-            <div style={styles.movieImageContainer}>
-              <img
+          <St.SlideMovieContainer>
+            <St.SlideMovieImageContainer>
+              <St.SlideMovieImage
                 src={`https://image.tmdb.org/t/p/w500/${popularMovies[currentIndex].poster_path}`}
                 alt={popularMovies[currentIndex].name}
-                style={styles.movieImage}
               />
-            </div>
-            <div style={styles.movieDetails}>
+            </St.SlideMovieImageContainer>
+            <St.SlideMovieDetails>
               <h3>{popularMovies[currentIndex].name}</h3>
               <p>평점: {popularMovies[currentIndex].vote_average}</p>
               <p>
@@ -106,43 +123,21 @@ const PopularSlider = () => {
                   .join(", ")}
               </p>
               <p>{popularMovies[currentIndex].overview}</p>
-            </div>
-          </div>
+            </St.SlideMovieDetails>
+          </St.SlideMovieContainer>
         )}
-      </div>
-      <button onClick={handlePrevSlide}>이전</button>
-      <button onClick={handleNextSlide}>다음</button>
-    </div>
+      </St.SlidePopularSlider>
+      <St.SlideTabContainer>
+        {popularMovies.map((_, index) => (
+          <St.SlideTab
+            key={index}
+            onClick={() => handleTabClick(index)}
+            active={activeTab === index}
+          />
+        ))}
+      </St.SlideTabContainer>
+    </St.SlideContainer>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  popularSlider: {
-    display: "flex",
-    gap: "1rem",
-    height: "500px",
-    overflow: "hidden",
-  },
-  movieContainer: {
-    display: "flex",
-    maxWidth: "800px", // 최대 너비를 설정하여 화면 가운데에 정렬
-  },
-  movieImageContainer: {
-    flex: "0 0 50%", // 이미지 컨테이너가 왼쪽에 50% 차지
-  },
-  movieImage: {
-    width: "100%", // 이미지를 100%로 설정하여 온전히 보이도록 함
-    height: "auto",
-  },
-  movieDetails: {
-    flex: "0 0 50%", // 내용 컨테이너가 오른쪽에 50% 차지
-    marginLeft: "1rem",
-  },
 };
 
 export default PopularSlider;
