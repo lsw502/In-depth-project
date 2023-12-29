@@ -1,96 +1,90 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { auth } from "../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-const SignUp = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-  const [isSignUpSuccess, setSignUpSuccess] = useState(false);
+function Signup({ onClose }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [nickname, setNickName] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // 여기에 실제 회원가입 로직을 추가할 수 있습니다.
-    console.log("회원가입 정보:", formData);
-  };
-
-  const handleCheckDuplicate = (fieldName) => {
-    // 여기에 각 필드에 대한 중복 확인 로직을 추가할 수 있습니다.
-    console.log(`중복 확인 (${fieldName}): `, formData[fieldName]);
+  // 모달
+  const handleSignup = () => {
+    // 회원가입 로직을 처리하고 필요한 경우 부모 컴포넌트에 결과를 전달
+    console.log("회원가입 정보:", { email, password, nickname });
+    onClose(); // 모달 닫기
   };
 
   return (
     <SignupWrapper>
-      <SignUpForm onSubmit={handleSubmit}>
+      <SignUpForm>
         <BackButton>←</BackButton>
         <h2>회원가입</h2>
+
         <FormLabel>
           <FormInput
             type="text"
-            name="username"
+            name="nickname"
+            value={nickname}
             placeholder="닉네임"
-            value={formData.username}
-            onChange={handleChange}
+            onChange={(e) => {
+              setNickName(e.target.value);
+            }}
           />
-          <ButtonContainer>
-            <CheckDuplicateButton
-              onClick={() => handleCheckDuplicate("username")}
-            >
-              중복 확인
-            </CheckDuplicateButton>
-          </ButtonContainer>
+          <CheckDuplicateButton>중복 확인</CheckDuplicateButton>
         </FormLabel>
 
         <FormInput
           type="email"
-          name="email"
+          value={email}
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
         />
-        <ButtonContainer>
-          <CheckDuplicateButton onClick={() => handleCheckDuplicate("email")}>
-            중복 확인
-          </CheckDuplicateButton>
-        </ButtonContainer>
+        <CheckDuplicateButton>중복 확인</CheckDuplicateButton>
 
         <FormInput
           type="password"
-          name="password"
+          value={password}
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
         />
 
-        <SignUpButton type="submit">회원가입</SignUpButton>
-
-        {isSignUpSuccess && (
-          <SuccessMessage>회원가입을 축하드립니다!</SuccessMessage>
-        )}
+        <SignUpButton
+          // onClick={handleSignUp}
+          onClick={async () => {
+            try {
+              await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password,
+                nickname
+              );
+            } catch (error) {
+              console.error(error);
+            }
+          }}
+        >
+          회원가입
+        </SignUpButton>
       </SignUpForm>
     </SignupWrapper>
   );
-};
+}
 
-export default SignUp;
+export default Signup;
 
 const SignupWrapper = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
   border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 30px;
   width: 50vh;
-  height: 700px;
+  height: 540px;
 `;
 const SignUpForm = styled.div`
   margin: 0 auto;
@@ -98,7 +92,7 @@ const SignUpForm = styled.div`
   flex-direction: column;
   align-items: center;
   width: 40vh;
-  height: 600px;
+  height: 420px;
 `;
 const BackButton = styled.button``;
 const FormLabel = styled.label`
@@ -111,11 +105,6 @@ const FormInput = styled.input`
   border-color: white;
   background-color: #9bbbff;
 `;
-const ButtonContainer = styled.div``;
+
 const CheckDuplicateButton = styled.button``;
 const SignUpButton = styled.button``;
-
-const SuccessMessage = styled.p`
-  color: green;
-  font-weight: bold;
-`;

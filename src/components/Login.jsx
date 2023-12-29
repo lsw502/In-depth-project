@@ -1,18 +1,62 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { auth } from "../firebase/firebase";
+import { auth, getAuth } from "../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
+// import { useNavigate } from "react-router-dom";
+import googlelogo from "../assets/google-logo-icon.png";
+import githublogo from "../assets/github-logo-icon.png";
 
-function Login({ onLogin }) {
+function Login({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const navigate = useNavigate("");
 
+  // 모달
   const handleLogin = () => {
-    if (email === "admin" && password === "password") {
-      onLogin();
-    } else {
-      alert("로그인 실패. 사용자 이름과 비밀번호를 확인하세요.");
+    // 로그인 로직을 처리하고 필요한 경우 부모 컴포넌트에 결과를 전달
+    console.log("로그인 정보:", { email, password });
+    onClose(); // 모달 닫기
+  };
+
+  // 구글 로그인
+  const signInWithGoogle = async () => {
+    const googleProvider = new GoogleAuthProvider();
+    signInWithPopup(auth, googleProvider)
+      .then((res) => {
+        const credential = GoogleAuthProvider.credentialFromResult(res);
+        const token = credential.accessToken;
+        const userName = res.user.displayName;
+        // local storage에 token, username 저장해주기
+        console.log(token);
+        console.log(userName);
+        // navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const handleClickGoogle = async (event) => {
+    event.preventDefault();
+    await signInWithGoogle();
+  };
+
+  // 깃 허브 로그인
+  const handleGithubSignIn = async () => {
+    const provider = new GithubAuthProvider();
+    // const auth = getAuth();
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      // navigate("/");
+      console.log(user);
+    } catch (error) {
+      console.error(error);
     }
   };
+
   return (
     <>
       <LoginWrapper>
@@ -38,10 +82,29 @@ function Login({ onLogin }) {
               }}
             />
           </FormLabel>
-          <FormButton type="button" onClick={handleLogin}>
+          <FormButton
+            onClick={async () => {
+              try {
+                const userCredential = await signInWithEmailAndPassword(
+                  auth,
+                  email,
+                  password
+                );
+                console.log(userCredential);
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          >
             로그인
           </FormButton>
-          <FormButton>회원가입</FormButton>
+
+          <SocialLogin>소셜계정으로 로그인</SocialLogin>
+          {/* Google 소셜 로그인 버튼  */}
+          <GoogleLogin onClick={handleClickGoogle} />
+          {/* github 소셜 로그인 버튼 */}
+          <GitHubLogin onClick={handleGithubSignIn} />
+          <SignupButton>회원가입</SignupButton>
         </LoginForm>
       </LoginWrapper>
     </>
@@ -54,9 +117,9 @@ const LoginWrapper = styled.div`
   display: flex;
   align-items: center;
   border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 30px;
   width: 50vh;
-  height: 700px;
+  height: 540px;
 `;
 const LoginForm = styled.div`
   margin: 0 auto;
@@ -64,7 +127,7 @@ const LoginForm = styled.div`
   flex-direction: column;
   align-items: center;
   width: 40vh;
-  height: 600px;
+  height: 420px;
 `;
 const FormLabel = styled.label`
   margin: 15px;
@@ -82,4 +145,39 @@ const FormButton = styled.button`
   border-radius: 10px;
   margin: 10px;
   border-color: white;
+`;
+
+const SocialLogin = styled.p`
+  font-size: 10px;
+  color: gray;
+`;
+
+const GoogleLogin = styled.button`
+  background-image: url(${googlelogo});
+  width: 30px;
+  height: 30px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
+const GitHubLogin = styled.button`
+  background-image: url(${githublogo});
+  width: 30px;
+  height: 30px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+const SignupButton = styled.button`
+  border: none;
+  margin-top: 30px;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 10px;
+  color: gray;
 `;
