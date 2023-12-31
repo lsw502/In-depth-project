@@ -1,13 +1,70 @@
-import React from 'react';
+// Navbar.jsx
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
-    return <Stwrapper></Stwrapper>;
+const Navbar = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    return (
+        <NavbarWrapper className={isMobile ? 'mobile' : ''}>
+            <div className="logo">{isMobile ? '애드잇' : '애드잇'}</div>
+            <NavLinks>
+                <NavLinkItem>
+                    <Link to="/">홈</Link>
+                </NavLinkItem>
+                <NavLinkItem>
+                    <Link to="/board">게시판</Link>
+                </NavLinkItem>
+                <NavLinkItem>
+                    <Link to="/profile">마이페이지</Link>
+                </NavLinkItem>
+            </NavLinks>
+        </NavbarWrapper>
+    );
 };
 
-export default Header;
+export default Navbar;
 
-const Stwrapper = styled.div`
+const NavbarWrapper = styled.nav`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
     background-color: lightblue;
-    padding: 10px;
+    color: black;
+
+    .logo {
+        font-size: 1.5rem;
+    }
+`;
+
+const NavLinks = styled.ul`
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+`;
+
+const NavLinkItem = styled.li`
+    margin-right: 20px;
+
+    a {
+        text-decoration: none; /* Remove underline from links */
+        color: black; /* Set link color */
+    }
 `;

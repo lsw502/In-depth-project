@@ -11,6 +11,7 @@ function InputBoard() {
     const queryClient = useQueryClient();
     const [title, setTitle] = useState('');
     const [contents, setContent] = useState('');
+    const [image, setImage] = useState('');
     const [show, setShow] = useState(false);
     const mutation = useMutation(addBoard, {
         onSuccess: (data) => {
@@ -18,6 +19,11 @@ function InputBoard() {
             queryClient.invalidateQueries('board');
         }
     });
+    // 이미지 업로드하는 방법
+    const handleImageAdd = (e) => {
+        setImage(e.target.value);
+    };
+    console.log(image);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const handleTitleChange = (event) => {
@@ -61,6 +67,18 @@ function InputBoard() {
                                 autoFocus
                                 value={title}
                                 onChange={handleTitleChange}
+                            />
+                        </Form.Group>
+
+                        <Form.Group
+                            className="mb-3"
+                            controlId="exampleForm.ControlInput1"
+                        >
+                            <input
+                                type="file"
+                                accept="image/*"
+                                value={image}
+                                onChange={handleImageAdd}
                             />
                         </Form.Group>
                         <Form.Group

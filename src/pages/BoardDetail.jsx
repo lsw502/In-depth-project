@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginIdAtom } from '../recoil/Atom';
 import InputBoard from '../redux/components/InputBoard/InputBoard';
+import styled from 'styled-components';
 
 const BoardDetail = () => {
     const queryClient = useQueryClient();
@@ -29,10 +30,12 @@ const BoardDetail = () => {
     }
 
     return (
-        <>
-            <div>{data.nickname}</div>
-            <div>{data.title}</div>
+        <Stwapper>
+            <Sttitle>{data.title}</Sttitle>
+            <Stnickname>{data.nickname}</Stnickname>
+            <Stline />
             <div>{data.contents}</div>
+
             {userId === data.writer ? (
                 <>
                     <button
@@ -61,8 +64,31 @@ const BoardDetail = () => {
                     돌아가기
                 </button>
             )}
-        </>
+        </Stwapper>
     );
 };
 
 export default BoardDetail;
+
+const Stwapper = styled.div`
+    margin: 20px;
+    padding: 20px;
+
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+        rgba(0, 0, 0, 0.23) 0px 6px 6px;
+`;
+
+const Sttitle = styled.div`
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+`;
+
+const Stnickname = styled.div``;
+
+const Stline = styled.div`
+    border: 1px solid rgb(217, 217, 217);
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+`;

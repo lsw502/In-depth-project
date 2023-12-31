@@ -3,6 +3,7 @@ import Home from '../pages/Home';
 import Board from '../pages/Board';
 import BoardDetail from '../pages/BoardDetail';
 import Layout from '../layout/Layout';
+import Write from '../pages/Write';
 
 const Router = () => {
     return (
@@ -12,6 +13,7 @@ const Router = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/board" element={<Board />} />
                     <Route path="/board/:id" element={<BoardDetail />} />
+                    <Route path="/write" element={<Write />} />
                 </Route>
             </Routes>
         </BrowserRouter>
