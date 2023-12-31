@@ -35,7 +35,7 @@ const Navbar = () => {
 
     return (
         <NavbarWrapper className={isMobile ? 'mobile' : ''}>
-            <div className="logo">{isMobile ? '애드잇' : '애드잇'}</div>
+            <div className="logo">{isMobile ? '애드잇22' : '애드잇22'}</div>
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/">홈</Link>
