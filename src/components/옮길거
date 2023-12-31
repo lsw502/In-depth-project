@@ -1,0 +1,61 @@
+// import React, { useState } from "react";
+// import LoginForm from "components/LoginForm";
+// import SignupForm from "components/SignupForm";
+// import Router from "./shared/Router";
+// import Signup from "./components/Signup";
+// import Login from "./components/Login";
+// import styled from "styled-components";
+
+// function App() {
+// 모달
+// const [isModalOpen, setModalOpen] = useState(false);
+// const [activeForm, setActiveForm] = useState("login");
+
+// const handleLoginClick = () => {
+//   setModalOpen(true);
+//   setActiveForm("login");
+// };
+
+// const handleSignupClick = () => {
+//   setModalOpen(true);
+//   setActiveForm("signup");
+// };
+
+// const handleModalClose = () => {
+//   setModalOpen(false);
+// };
+//   return (
+//     <>
+{
+  /* <StContainer>
+        <header>
+          <h1>리액트 메인 홈페이지</h1>
+          <button onClick={handleLoginClick}>로그인</button>
+          <button onClick={handleSignupClick}>회원가입</button>
+        </header>
+
+        {isModalOpen && (
+          <StModal className="modal">
+            {activeForm === "login" ? (
+              <Login onClose={handleModalClose} />
+            ) : (
+              <Signup onClose={handleModalClose} />
+            )}
+          </StModal>
+        )}
+      </StContainer> */
+}
+{
+  /* <Router /> */
+}
+//     </>
+//   );
+// }
+
+// export default App;
+
+// const StModal = styled.div``;
+// const StContainer = styled.div`
+//   width: 100%;
+//   height: 100%;
+// `;

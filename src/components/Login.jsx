@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { auth, getAuth } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 import { signInWithPopup } from "firebase/auth";
@@ -11,14 +11,9 @@ import githublogo from "../assets/github-logo-icon.png";
 function Login({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate("");
+  const modalRef = useRef(null);
 
-  // 모달
-  const handleLogin = () => {
-    // 로그인 로직을 처리하고 필요한 경우 부모 컴포넌트에 결과를 전달
-    console.log("로그인 정보:", { email, password });
-    onClose(); // 모달 닫기
-  };
+  // const navigate = useNavigate();
 
   // 구글 로그인
   const signInWithGoogle = async () => {
@@ -28,10 +23,10 @@ function Login({ onClose }) {
         const credential = GoogleAuthProvider.credentialFromResult(res);
         const token = credential.accessToken;
         const userName = res.user.displayName;
+
         // local storage에 token, username 저장해주기
         console.log(token);
         console.log(userName);
-        // navigate("/");
       })
       .catch((error) => {
         console.error(error);
@@ -57,60 +52,94 @@ function Login({ onClose }) {
     }
   };
 
+  const handleClickSignIn = async (event) => {
+    event.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(userCredential);
+      console.log("로그인완료");
+      alert(`안녕하세요`);
+      onClose();
+      // navigate("/");
+    } catch (error) {
+      alert("이메일,비밀번호를 확인해주세요.");
+      console.error(error);
+    }
+  };
+
+  const modalOutSideClick = (e) => {
+    if (modalRef.current === e.target) {
+      onClose();
+    }
+  };
+
   return (
     <>
-      <LoginWrapper>
-        <LoginForm>
-          <h2>애니잇</h2>
-          <FormLabel>
-            <FormInput
-              type="email"
-              value={email}
-              placeholder="Email"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </FormLabel>
-          <FormLabel>
-            <FormInput
-              type="password"
-              value={password}
-              placeholder="Password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </FormLabel>
-          <FormButton
-            onClick={async () => {
-              try {
-                const userCredential = await signInWithEmailAndPassword(
-                  auth,
-                  email,
-                  password
-                );
-                console.log(userCredential);
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-          >
-            로그인
-          </FormButton>
+      <WrapperBackground ref={modalRef} onClick={(e) => modalOutSideClick(e)}>
+        <LoginWrapper>
+          <LoginForm>
+            <h2>애니잇</h2>
+            <FormLabel>
+              <FormInput
+                type="email"
+                value={email}
+                placeholder="이메일"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </FormLabel>
 
-          <SocialLogin>소셜계정으로 로그인</SocialLogin>
-          {/* Google 소셜 로그인 버튼  */}
-          <GoogleLogin onClick={handleClickGoogle} />
-          {/* github 소셜 로그인 버튼 */}
-          <GitHubLogin onClick={handleGithubSignIn} />
-          <SignupButton>회원가입</SignupButton>
-        </LoginForm>
-      </LoginWrapper>
+            <FormLabel>
+              <FormInput
+                type="password"
+                value={password}
+                placeholder="비밀번호 입력"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </FormLabel>
+
+            <FormButton onClick={handleClickSignIn}>로그인</FormButton>
+
+            <SocialLogin>소셜계정으로 로그인</SocialLogin>
+
+            <Socialcontanier>
+              {/* Google 소셜 로그인 버튼  */}
+              <GoogleLogin onClick={handleClickGoogle} />
+              {/* github 소셜 로그인 버튼 */}
+              <GitHubLogin onClick={handleGithubSignIn} />
+            </Socialcontanier>
+
+            <SignupButton
+              onClick={() => {
+                // navigate("/singup");
+              }}
+            >
+              회원가입
+            </SignupButton>
+          </LoginForm>
+        </LoginWrapper>
+      </WrapperBackground>
     </>
   );
 }
+
 export default Login;
+const WrapperBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(1rem);
+  /* background-color: black; */
+`;
 
 const LoginWrapper = styled.div`
   margin: 0 auto;
@@ -118,8 +147,13 @@ const LoginWrapper = styled.div`
   align-items: center;
   border: 1px solid black;
   border-radius: 30px;
-  width: 50vh;
-  height: 540px;
+  width: 40vh;
+  height: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background-color: white;
 `;
 const LoginForm = styled.div`
   margin: 0 auto;
@@ -138,13 +172,19 @@ const FormInput = styled.input`
   border-radius: 10px;
   border-color: white;
   background-color: #9bbbff;
+  color: white;
 `;
 const FormButton = styled.button`
-  width: 250px;
-  height: 40px;
+  width: 170px;
+  height: 50px;
   border-radius: 10px;
   margin: 10px;
   border-color: white;
+  &:hover {
+    background-color: blue;
+  }
+  background-color: #9bbbff;
+  color: white;
 `;
 
 const SocialLogin = styled.p`
@@ -173,6 +213,11 @@ const GitHubLogin = styled.button`
   cursor: pointer;
 `;
 
+const Socialcontanier = styled.div`
+  display: flex;
+  gap: 25px;
+`;
+
 const SignupButton = styled.button`
   border: none;
   margin-top: 30px;
@@ -180,4 +225,5 @@ const SignupButton = styled.button`
   cursor: pointer;
   font-size: 10px;
   color: gray;
+  text-decoration: underline;
 `;
