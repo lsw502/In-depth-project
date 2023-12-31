@@ -2,7 +2,7 @@ import React from 'react';
 import { getBoards } from '../api/boardApi';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import InputBoard from '../redux/components/InputBoard/InputBoard';
+import InputBoard from '../components/InputBoard';
 import { useNavigate } from 'react-router-dom';
 
 const Board = () => {

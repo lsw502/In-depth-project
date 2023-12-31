@@ -4,7 +4,7 @@ import { getBoard, removeBoard } from '../api/boardApi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginIdAtom } from '../recoil/Atom';
-import InputBoard from '../redux/components/InputBoard/InputBoard';
+import InputBoard from '../components/InputBoard';
 import styled from 'styled-components';
 
 const BoardDetail = () => {

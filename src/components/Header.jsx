@@ -2,8 +2,21 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import Login from 'components/Login';
+import Signup from 'components/SignUp';
 
 const Navbar = () => {
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [activeForm, setActiveForm] = useState('login');
+
+    const handleLoginClick = () => {
+        setModalOpen(true);
+        setActiveForm('login');
+    };
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+    };
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -33,7 +46,21 @@ const Navbar = () => {
                 <NavLinkItem>
                     <Link to="/profile">마이페이지</Link>
                 </NavLinkItem>
+                <NavLinkItem>
+                    <button onClick={handleLoginClick}>로그인</button>
+                </NavLinkItem>
             </NavLinks>
+            <div>
+                {isModalOpen && (
+                    <div className="modal">
+                        {activeForm === 'login' ? (
+                            <Login onClose={handleModalClose} />
+                        ) : (
+                            <Signup onClose={handleModalClose} />
+                        )}
+                    </div>
+                )}
+            </div>
         </NavbarWrapper>
     );
 };

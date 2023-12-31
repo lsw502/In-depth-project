@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useMutation, useQueryClient } from 'react-query';
-import { addBoard } from '../../../api/boardApi';
-import { loginIdAtom } from '../../../recoil/Atom';
+import { addBoard } from '../api/boardApi';
+import { loginIdAtom } from '../recoil/Atom';
 import { useRecoilValue } from 'recoil';
 
 function InputBoard() {
