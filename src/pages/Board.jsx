@@ -1,27 +1,46 @@
-import React from 'react';
-import { getBoards } from '../api/boardApi';
-import { useQuery } from 'react-query';
+import React, { useState } from 'react';
+// import { getBoards } from '../api/boardApi';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import styled from 'styled-components';
 import InputBoard from '../components/InputBoard';
 import { useNavigate } from 'react-router-dom';
+import { getBoards } from 'api/boardApi';
+import axios from 'axios';
 
 const Board = () => {
+    const getBoards = async (props) => {
+        console.log(props);
+        const response = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/comments?_page=1`
+        );
+        // console.log(response.data);
+        return response.data;
+    };
     const navigate = useNavigate();
 
-    const { isLoading, isError, data } = useQuery('board', getBoards);
+    // console.log(data);
+    const {} = useInfiniteQuery({
+        queryKey: ['boardss'],
+        queryFn: getBoards,
+        initialPageParam: 1,
+        getNextPageParam: (LastPage) => {
+            return LastPage;
+        }
+    });
+    // const { isLoading, isError, data } = useQuery('board', getBoards);
 
-    if (isLoading) {
-        return <h1>로딩중입니다...</h1>;
-    }
-    if (isError) {
-        return <h1>에러가 발생했습니다.</h1>;
-    }
+    // if (isLoading) {
+    //     return <h1>loading..</h1>;
+    // }
+    // if (isError) {
+    //     return <h1>에러가 발생했습니다.</h1>;
+    // }
     return (
         <>
             <InputBoard />
             <>
                 <InputWrapper>
-                    {data.map((item) => {
+                    {/* {data.map((item) => {
                         return (
                             <Stwrapper
                                 onClick={() => {
@@ -29,9 +48,10 @@ const Board = () => {
                                 }}
                             >
                                 <div> {item.title}</div>
+                                <div> {item.contents}</div>
                             </Stwrapper>
                         );
-                    })}
+                    })} */}
                 </InputWrapper>
             </>
         </>
@@ -43,7 +63,7 @@ export default Board;
 const Stwrapper = styled.div`
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
         rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-    background-color: lightgray;
+    background-color: lightskyblue;
     border-radius: 3px;
     margin: 10px;
     width: 500px;

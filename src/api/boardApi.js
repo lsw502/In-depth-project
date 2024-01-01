@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 // 조회들
-const getBoards = async () => {
+const getBoards = async (props) => {
+    console.log(props);
     const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/comments`
+        `${process.env.REACT_APP_SERVER_URL}/comments?_page=1`
     );
     // console.log(response.data);
     return response.data;

@@ -35,6 +35,7 @@ const BoardDetail = () => {
             <Stnickname>{data.nickname}</Stnickname>
             <Stline />
             <div>{data.contents}</div>
+            <Spacer></Spacer>
 
             {userId === data.writer ? (
                 <>
@@ -92,3 +93,5 @@ const Stline = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
 `;
+
+const Spacer = styled.div``;
