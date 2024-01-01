@@ -27,7 +27,7 @@
 //   return (
 //     <>
 {
-  /* <StContainer>
+    /* <StContainer>
         <header>
           <h1>리액트 메인 홈페이지</h1>
           <button onClick={handleLoginClick}>로그인</button>
@@ -46,7 +46,7 @@
       </StContainer> */
 }
 {
-  /* <Router /> */
+    /* <Router /> */
 }
 //     </>
 //   );
