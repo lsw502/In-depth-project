@@ -2,21 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Login from 'components/Login';
-import Signup from 'components/SignUp';
 
 const Navbar = () => {
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [activeForm, setActiveForm] = useState('login');
-
-    const handleLoginClick = () => {
-        setModalOpen(true);
-        setActiveForm('login');
-    };
-
-    const handleModalClose = () => {
-        setModalOpen(false);
-    };
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -35,7 +22,7 @@ const Navbar = () => {
 
     return (
         <NavbarWrapper className={isMobile ? 'mobile' : ''}>
-            <div className="logo">{isMobile ? '애드잇' : '애드잇'}</div>
+            <div className="logo">{isMobile ? '애드잇22' : '애드잇22'}</div>
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/">홈</Link>
@@ -47,20 +34,9 @@ const Navbar = () => {
                     <Link to="/profile">마이페이지</Link>
                 </NavLinkItem>
                 <NavLinkItem>
-                    <button onClick={handleLoginClick}>로그인</button>
+                    <Link to="/login">로그인</Link>
                 </NavLinkItem>
             </NavLinks>
-            <div>
-                {isModalOpen && (
-                    <div className="modal">
-                        {activeForm === 'login' ? (
-                            <Login onClose={handleModalClose} />
-                        ) : (
-                            <Signup onClose={handleModalClose} />
-                        )}
-                    </div>
-                )}
-            </div>
         </NavbarWrapper>
     );
 };
@@ -95,3 +71,8 @@ const NavLinkItem = styled.li`
         color: black; /* Set link color */
     }
 `;
+// const LoginButton = styled.button`
+//     border: none;
+//     background-color: transparent;
+//     cursor: pointer;
+// `;

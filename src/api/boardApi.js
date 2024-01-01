@@ -4,7 +4,7 @@ import axios from 'axios';
 const getBoards = async (props) => {
     console.log(props);
     const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/comments?_page=1`
+        `${process.env.REACT_APP_SERVER_URL}/comments`
     );
     // console.log(response.data);
     return response.data;

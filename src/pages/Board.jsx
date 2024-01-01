@@ -11,11 +11,12 @@ const Board = () => {
     const getBoards = async (props) => {
         console.log(props);
         const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/comments?_page=1`
+            `${process.env.REACT_APP_SERVER_URL}/comments`
         );
         // console.log(response.data);
         return response.data;
     };
+
     const navigate = useNavigate();
 
     // console.log(data);
@@ -27,20 +28,20 @@ const Board = () => {
             return LastPage;
         }
     });
-    // const { isLoading, isError, data } = useQuery('board', getBoards);
+    const { isLoading, isError, data } = useQuery('board', getBoards);
 
-    // if (isLoading) {
-    //     return <h1>loading..</h1>;
-    // }
-    // if (isError) {
-    //     return <h1>에러가 발생했습니다.</h1>;
-    // }
+    if (isLoading) {
+        return <h1>loading..</h1>;
+    }
+    if (isError) {
+        return <h1>에러가 발생했습니다.</h1>;
+    }
     return (
         <>
             <InputBoard />
             <>
                 <InputWrapper>
-                    {/* {data.map((item) => {
+                    {data.map((item) => {
                         return (
                             <Stwrapper
                                 onClick={() => {
@@ -48,10 +49,9 @@ const Board = () => {
                                 }}
                             >
                                 <div> {item.title}</div>
-                                <div> {item.contents}</div>
                             </Stwrapper>
                         );
-                    })} */}
+                    })}
                 </InputWrapper>
             </>
         </>

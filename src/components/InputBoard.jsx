@@ -3,11 +3,12 @@ import { Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useMutation, useQueryClient } from 'react-query';
 import { addBoard } from '../api/boardApi';
-import { loginIdAtom } from '../recoil/Atom';
+import { loginIdAtom, nicknameAtom } from '../recoil/Atom';
 import { useRecoilValue } from 'recoil';
 
 function InputBoard() {
     const userId = useRecoilValue(loginIdAtom);
+    const userNickname = useRecoilValue(nicknameAtom);
     const queryClient = useQueryClient();
     const [title, setTitle] = useState('');
     const [contents, setContent] = useState('');
@@ -36,8 +37,8 @@ function InputBoard() {
         const newBoard = {
             title,
             contents,
-            writer: userId
-            // nickname
+            writer: userId,
+            nickname: userNickname
         };
         mutation.mutate(newBoard);
 
@@ -70,7 +71,7 @@ function InputBoard() {
                             />
                         </Form.Group>
 
-                        <Form.Group
+                        {/* <Form.Group
                             className="mb-3"
                             controlId="exampleForm.ControlInput1"
                         >
@@ -80,7 +81,7 @@ function InputBoard() {
                                 value={image}
                                 onChange={handleImageAdd}
                             />
-                        </Form.Group>
+                        </Form.Group> */}
                         <Form.Group
                             className="mb-3"
                             controlId="exampleForm.ControlTextarea1"
