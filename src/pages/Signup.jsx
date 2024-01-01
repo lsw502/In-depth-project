@@ -4,8 +4,11 @@ import { auth } from '../firebase/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import backicon from '../assets/icon-back.png';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { nicknameAtom } from 'recoil/Atom';
 
 function Signup() {
+    const [Renickname, setRenickname] = useRecoilState(nicknameAtom);
     const [nickname, setNickName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -86,6 +89,7 @@ function Signup() {
                                 );
                                 console.log('회원가입 완료');
                                 alert(`안녕하세요`);
+                                setRenickname(nickname);
                                 navigate('/login');
                             } catch (error) {
                                 console.error(error);

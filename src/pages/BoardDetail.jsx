@@ -4,7 +4,7 @@ import { getBoard, removeBoard } from '../api/boardApi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginIdAtom } from '../recoil/Atom';
-import InputBoard from '../components/InputBoard';
+
 import styled from 'styled-components';
 
 const BoardDetail = () => {
@@ -35,6 +35,7 @@ const BoardDetail = () => {
             <Stnickname>{data.nickname}</Stnickname>
             <Stline />
             <div>{data.contents}</div>
+            <Spacer></Spacer>
 
             {userId === data.writer ? (
                 <>
@@ -92,3 +93,5 @@ const Stline = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
 `;
+
+const Spacer = styled.div``;

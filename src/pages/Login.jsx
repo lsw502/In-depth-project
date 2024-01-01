@@ -11,8 +11,11 @@ import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import googlelogo from '../assets/google-logo-icon.png';
 import githublogo from '../assets/github-logo-icon.png';
+import { useRecoilState } from 'recoil';
+import { loginIdAtom } from 'recoil/Atom';
 
 function Login() {
+    const [userId, setUserId] = useRecoilState(loginIdAtom);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
@@ -74,6 +77,7 @@ function Login() {
             console.log('로그인완료');
             alert(`안녕하세요`);
             setCurrentUser(userCredential.user.email);
+            setUserId(email);
             navigate('/');
         } catch (error) {
             alert('이메일,비밀번호를 확인해주세요.');

@@ -3,7 +3,6 @@ import Home from '../pages/Home';
 import Board from '../pages/Board';
 import BoardDetail from '../pages/BoardDetail';
 import Layout from '../layout/Layout';
-import Write from '../pages/Write';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup';
 
@@ -15,10 +14,8 @@ const Router = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/board" element={<Board />} />
                     <Route path="/board/:id" element={<BoardDetail />} />
-                    <Route path="/write" element={<Write />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
-
                 </Route>
             </Routes>
         </BrowserRouter>

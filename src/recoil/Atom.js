@@ -6,8 +6,18 @@ const { persistAtom } = recoilPersist({
     storage: localStorage // 저장은 여기에 해야지!
 });
 
+const { persistNickNameAtom } = recoilPersist({
+    key: 'nicknameAtome',
+    storage: localStorage // 저장은 여기에 해야지!
+});
+
 export const loginIdAtom = atom({
     key: 'loginIdAtom',
-    default: 'testId',
+    default: '',
     effects_UNSTABLE: [persistAtom]
+});
+
+export const nicknameAtom = atom({
+    key: 'nicknameAtome',
+    default: ''
 });
