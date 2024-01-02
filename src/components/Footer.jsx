@@ -8,6 +8,7 @@ const Footer = () => {
 export default Footer;
 
 const Stwrapper = styled.div`
-    background-color: lightgreen;
+    background-color: black;
     padding: 50px;
+    color: white;
 `;

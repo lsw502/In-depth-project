@@ -158,18 +158,13 @@ function Login() {
 export default Login;
 
 const LoginWrapper = styled.div`
-    margin: 0 auto;
+    margin: 40px auto;
     display: flex;
     align-items: center;
     border: 1px solid black;
-    border-radius: 30px;
-    width: 40vh;
+    border-radius: 10px;
+    width: 50vh;
     height: 500px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    background-color: white;
 `;
 const LoginForm = styled.div`
     margin: 0 auto;
