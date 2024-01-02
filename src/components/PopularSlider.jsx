@@ -1,4 +1,4 @@
-import * as St from "../components/styles";
+import * as St from "./mainStyles";
 import React, { useEffect, useState } from "react";
 
 const PopularSlider = () => {
@@ -83,15 +83,6 @@ const PopularSlider = () => {
     );
   };
 
-  // const handlePrevSlide = () => {
-  //   setCurrentIndex((prevIndex) =>
-  //     prevIndex - 1 >= 0 ? prevIndex - 1 : popularMovies.length - 1
-  //   );
-  //   setActiveTab((prevIndex) =>
-  //     prevIndex - 1 >= 0 ? prevIndex - 1 : popularMovies.length - 1
-  //   );
-  // };
-
   const handleTabClick = (index) => {
     setActiveTab(index);
     setCurrentIndex(index);
@@ -113,14 +104,22 @@ const PopularSlider = () => {
               <p>평점: {popularMovies[currentIndex].vote_average}</p>
               <p>
                 장르:{" "}
-                {popularMovies[currentIndex].genre_ids
-                  .map((genreId) => {
+                {popularMovies[currentIndex].genre_ids.map(
+                  (genreId, genreIndex) => {
                     const foundGenre = genres.find(
                       (genre) => genre.id === genreId
                     );
-                    return foundGenre ? foundGenre.name : "알 수 없는 장르";
-                  })
-                  .join(", ")}
+                    const genreName = foundGenre
+                      ? foundGenre.name
+                      : "알 수 없는 장르";
+
+                    return (
+                      <St.GenreCircle key={genreIndex}>
+                        {genreName}
+                      </St.GenreCircle>
+                    );
+                  }
+                )}
               </p>
               <p>{popularMovies[currentIndex].overview}</p>
             </St.SlideMovieDetails>

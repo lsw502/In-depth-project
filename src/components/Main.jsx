@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setData,
@@ -8,10 +8,12 @@ import {
   setSortBy,
 } from "../store/slice";
 import MovieCard from "./MovieCard";
-import * as St from "../components/styles";
+import * as St from "./mainStyles";
 
 const Main = () => {
   const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const { data, genreData, page, selectedGenre, sortBy } = useSelector(
     (state) => state.movie
   );
@@ -29,7 +31,7 @@ const Main = () => {
 
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=ko-KR&page=${page}&_limit=10&sort_by=popularity.desc&with_origin_country=JP`,
+          `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=ko-KR&page=${page}&_limit=60&sort_by=popularity.desc&with_origin_country=JP`,
           movieOptions
         );
 
@@ -69,7 +71,7 @@ const Main = () => {
         }
 
         const genreResult = await genreResponse.json();
-        dispatch(setGenreData(genreResult.genres)); // 여기서 dispatch를 사용
+        dispatch(setGenreData(genreResult.genres));
       } catch (error) {
         console.error(error);
       }
@@ -106,33 +108,77 @@ const Main = () => {
       return 0;
     });
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    // 사용자가 검색 버튼을 클릭할 때 호출되는 함수
+    const sanitizedSearchTerm = searchTerm.toLowerCase().replace(/\s/g, "");
+    const searchedMovies = filteredMovies?.filter((movie) =>
+      movie.name.toLowerCase().replace(/\s/g, "").includes(sanitizedSearchTerm)
+    );
+    setSearchResults(searchedMovies);
+
+    if (!searchedMovies || searchedMovies.length === 0) {
+      alert("일치하는 검색 결과가 없습니다.");
+    }
+    setSearchTerm("");
+  };
+
+  const handleEnterKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+      setSearchTerm("");
+    }
+  };
+
   return (
     <St.Container>
       <St.SelectBox>
-        <St.Label htmlFor="genre">장르 선택: </St.Label>
-        <St.Select
-          id="genre"
-          onChange={(e) => handleGenreChange(Number(e.target.value))}
-        >
-          <option value={null}>전체</option>
-          {genreData.map((genre) => (
-            <option key={genre.id} value={genre.id}>
-              {genre.name}
-            </option>
-          ))}
-        </St.Select>
-        <St.Label htmlFor="sort">정렬 선택: </St.Label>
-        <St.Select id="sort" onChange={(e) => handleSortChange(e.target.value)}>
-          <option value="popularity.desc">인기순</option>
-          <option value="vote_average.desc">평점순</option>
-          <option value="first_air_date.desc">신작순</option>
-        </St.Select>
+        <St.SearchBox>
+          <St.Label htmlFor="search">검색: </St.Label>
+          <St.SearchInput
+            id="search"
+            placeholder=" 영화 제목을 입력하세요"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleEnterKeyPress}
+          />
+          <St.SearchButton onClick={handleSearch}>검색</St.SearchButton>
+        </St.SearchBox>
+        <St.OptionBox>
+          <St.Label htmlFor="genre">장르 선택: </St.Label>
+          <St.Select
+            id="genre"
+            onChange={(e) => handleGenreChange(Number(e.target.value))}
+          >
+            <option value={null}>전체</option>
+            {genreData.map((genre) => (
+              <option key={genre.id} value={genre.id}>
+                {genre.name}
+              </option>
+            ))}
+          </St.Select>
+          <St.Label htmlFor="sort">정렬 선택: </St.Label>
+          <St.Select
+            id="sort"
+            onChange={(e) => handleSortChange(e.target.value)}
+          >
+            <option value="popularity.desc">인기순</option>
+            <option value="vote_average.desc">평점순</option>
+            <option value="first_air_date.desc">신작순</option>
+          </St.Select>
+        </St.OptionBox>
       </St.SelectBox>
       <St.MovieList>
-        {filteredMovies &&
-          filteredMovies.map((item) => (
-            <MovieCard key={item.id} movie={item} genres={genreData} />
-          ))}
+        {searchResults.length > 0
+          ? searchResults.map((item) => (
+              <MovieCard key={item.id} movie={item} genres={genreData} />
+            ))
+          : filteredMovies.map((item) => (
+              <MovieCard key={item.id} movie={item} genres={genreData} />
+            ))}
       </St.MovieList>
       <St.LoadMoreButton onClick={handleLoadMore}>더보기</St.LoadMoreButton>
     </St.Container>
