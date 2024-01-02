@@ -22,7 +22,7 @@ const Navbar = () => {
 
     return (
         <NavbarWrapper className={isMobile ? 'mobile' : ''}>
-            <div className="logo">{isMobile ? '애드잇22' : '애드잇22'}</div>
+            <div className="logo">{isMobile ? '애니잇' : '애니잇'}</div>
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/">홈</Link>
@@ -48,8 +48,8 @@ const NavbarWrapper = styled.nav`
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: lightblue;
-    color: black;
+    background-color: black;
+    color: white;
 
     .logo {
         font-size: 1.5rem;
@@ -68,7 +68,7 @@ const NavLinkItem = styled.li`
 
     a {
         text-decoration: none; /* Remove underline from links */
-        color: black; /* Set link color */
+        color: white; /* Set link color */
     }
 `;
 // const LoginButton = styled.button`

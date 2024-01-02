@@ -103,18 +103,13 @@ function Signup() {
 export default Signup;
 
 const SignupWrapper = styled.div`
-    margin: 0 auto;
+    margin: 40px auto;
     display: flex;
     align-items: center;
     border: 1px solid black;
-    border-radius: 30px;
-    width: 40vh;
+    border-radius: 10px;
+    width: 50vh;
     height: 500px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    background-color: white;
 `;
 const SignUpForm = styled.div`
     margin: 0 auto;
@@ -123,7 +118,6 @@ const SignUpForm = styled.div`
     align-items: center;
     width: 40vh;
     height: 420px;
-    margin-bottom: 25px;
 `;
 const Backcontainer = styled.div`
     display: flex;
@@ -145,7 +139,7 @@ const BackButton = styled.button`
 const Formcontainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 55px;
     align-items: center;
 `;
 
