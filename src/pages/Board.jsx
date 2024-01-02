@@ -61,13 +61,17 @@ export default Board;
 
 const Stwrapper = styled.div`
     border-radius: 3px;
-    border: 1px solid black;
     margin: 10px;
-    width: 500px;
+    width: 700px;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     cursor: pointer;
+    background-color: #e3dede;
+    &:hover {
+        background-color: #5e5e5f;
+        color: white;
+    }
 `;
 
 const InputWrapper = styled.div`
