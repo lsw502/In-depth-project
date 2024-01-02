@@ -85,7 +85,7 @@ const Sttitle = styled.div`
 `;
 
 const Stnickname = styled.div``;
-const Stcontent = styled.textarea`
+const Stcontent = styled.div`
     margin-bottom: 50px;
     padding: 30px;
     font-size: 20px;

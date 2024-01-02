@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import InputBoard from '../components/InputBoard';
 import { useNavigate } from 'react-router-dom';
 import { getBoards } from 'api/boardApi';
-import axios from 'axios';
 
 const Board = () => {
     // const getBoards = async ({ pageParam = 1 }) => {

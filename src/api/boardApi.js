@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 조회들
 const getBoards = async (props) => {
-    console.log(props);
+    // console.log(props);
     const response = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/comments?_sort=id&_order=desc`
     );
