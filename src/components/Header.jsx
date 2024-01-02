@@ -1,32 +1,75 @@
-// Header.jsx
-import React, { useState, useEffect } from "react";
+// Navbar.jsx
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+const Navbar = () => {
+    const [isMobile, setIsMobile] = useState(false);
 
-  return (
-    <header style={styles.header}>
-      <h1>Main Component</h1>
-      <div>
-        <label htmlFor="search">검색: </label>
-        <input
-          type="text"
-          id="search"
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-    </header>
-  );
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    return (
+        <NavbarWrapper className={isMobile ? 'mobile' : ''}>
+            <div className="logo">{isMobile ? '애드잇22' : '애드잇22'}</div>
+            <NavLinks>
+                <NavLinkItem>
+                    <Link to="/">홈</Link>
+                </NavLinkItem>
+                <NavLinkItem>
+                    <Link to="/board">게시판</Link>
+                </NavLinkItem>
+                <NavLinkItem>
+                    <Link to="/login">마이페이지</Link>
+                </NavLinkItem>
+            </NavLinks>
+        </NavbarWrapper>
+    );
 };
 
-const styles = {
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "1rem",
-    backgroundColor: "#f0f0f0",
-  },
-};
+export default Navbar;
 
-export default Header;
+const NavbarWrapper = styled.nav`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: lightblue;
+    color: black;
+
+    .logo {
+        font-size: 1.5rem;
+    }
+`;
+
+const NavLinks = styled.ul`
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+`;
+
+const NavLinkItem = styled.li`
+    margin-right: 20px;
+
+    a {
+        text-decoration: none; /* Remove underline from links */
+        color: black; /* Set link color */
+    }
+`;
+// const LoginButton = styled.button`
+//     border: none;
+//     background-color: transparent;
+//     cursor: pointer;
+// `;
