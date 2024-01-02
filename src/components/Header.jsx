@@ -45,7 +45,7 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarWrapper = styled.nav`
-    width: 100%;
+    width: 100%vh;
     display: flex;
     justify-content: space-between;
     align-items: center;

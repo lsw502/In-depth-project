@@ -85,6 +85,7 @@ function Signup() {
                             try {
                                 await createUserWithEmailAndPassword(
                                     auth,
+
                                     email,
                                     password
                                 );
