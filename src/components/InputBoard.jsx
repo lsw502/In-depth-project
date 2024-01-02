@@ -3,12 +3,12 @@ import { Form, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useMutation, useQueryClient } from 'react-query';
 import { addBoard } from '../api/boardApi';
-import { loginIdAtom, nicknameAtom } from '../recoil/Atom';
+import { NicknameAtom, loginIdAtom } from '../recoil/Atom';
 import { useRecoilValue } from 'recoil';
 
 function InputBoard() {
     const userId = useRecoilValue(loginIdAtom);
-    const userNickname = useRecoilValue(nicknameAtom);
+    const userNickname = useRecoilValue(NicknameAtom);
     const queryClient = useQueryClient();
     const [title, setTitle] = useState('');
     const [contents, setContent] = useState('');

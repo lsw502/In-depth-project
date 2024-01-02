@@ -11,7 +11,7 @@ import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import googlelogo from '../assets/google-logo-icon.png';
 import githublogo from '../assets/github-logo-icon.png';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { loginIdAtom } from 'recoil/Atom';
 
 function Login() {
@@ -95,6 +95,8 @@ function Login() {
                             alert('로그아웃 하시겠습니까?');
                             await signOut(auth);
                             setCurrentUser(null);
+                            localStorage.removeItem('userInfo');
+                            localStorage.removeItem('usernicknameInfo');
                         }}
                     >
                         로그아웃

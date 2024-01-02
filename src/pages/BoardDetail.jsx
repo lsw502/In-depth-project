@@ -32,10 +32,9 @@ const BoardDetail = () => {
     return (
         <Stwapper>
             <Sttitle>{data.title}</Sttitle>
-            <Stnickname>{data.nickname}</Stnickname>
+            <Stnickname>{data.nickname} 님</Stnickname>
             <Stline />
-            <div>{data.contents}</div>
-            <Spacer></Spacer>
+            <Stcontent>{data.contents}</Stcontent>
 
             {userId === data.writer ? (
                 <>
@@ -81,11 +80,16 @@ const Stwapper = styled.div`
 
 const Sttitle = styled.div`
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: bold;
 `;
 
 const Stnickname = styled.div``;
+const Stcontent = styled.div`
+    margin-bottom: 50px;
+    padding-left: 20px;
+    font-size: 20px;
+`;
 
 const Stline = styled.div`
     border: 1px solid rgb(217, 217, 217);
@@ -93,5 +97,3 @@ const Stline = styled.div`
     margin-top: 20px;
     margin-bottom: 20px;
 `;
-
-const Spacer = styled.div``;
