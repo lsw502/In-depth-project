@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBoard, removeBoard } from '../api/boardApi';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { loginIdAtom } from '../recoil/Atom';
 
 import styled from 'styled-components';
