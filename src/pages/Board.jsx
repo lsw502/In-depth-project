@@ -8,26 +8,25 @@ import { getBoards } from 'api/boardApi';
 import axios from 'axios';
 
 const Board = () => {
-    const getBoards = async (props) => {
-        console.log(props);
-        const response = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/comments`
-        );
-        // console.log(response.data);
-        return response.data;
-    };
-
+    // const getBoards = async ({ pageParam = 1 }) => {
+    //     console.log();
+    //     const response = await axios.get(
+    //         `${process.env.REACT_APP_SERVER_URL}/comments?_page=${pageParam}`
+    //     );
+    //     console.log(response.data);
+    //     return response.data;
+    // };
     const navigate = useNavigate();
 
-    // console.log(data);
-    const {} = useInfiniteQuery({
-        queryKey: ['boardss'],
-        queryFn: getBoards,
-        initialPageParam: 1,
-        getNextPageParam: (LastPage) => {
-            return LastPage;
-        }
-    });
+    // const {} = useInfiniteQuery({
+    //     queryKey: ['boardss'],
+    //     queryFn: getBoards,
+    //     getNextPageParam: (LastPage) => {
+    //         return LastPage;
+    //     }
+    // });
+
+    // 데이터 가져오기
     const { isLoading, isError, data } = useQuery('board', getBoards);
 
     if (isLoading) {

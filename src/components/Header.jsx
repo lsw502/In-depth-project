@@ -31,10 +31,7 @@ const Navbar = () => {
                     <Link to="/board">게시판</Link>
                 </NavLinkItem>
                 <NavLinkItem>
-                    <Link to="/profile">마이페이지</Link>
-                </NavLinkItem>
-                <NavLinkItem>
-                    <Link to="/login">로그인</Link>
+                    <Link to="/login">마이페이지</Link>
                 </NavLinkItem>
             </NavLinks>
         </NavbarWrapper>
