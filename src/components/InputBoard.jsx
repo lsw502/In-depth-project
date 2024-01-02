@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { addBoard } from '../api/boardApi';
 import { NicknameAtom, loginIdAtom } from '../recoil/Atom';
 import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 
 function InputBoard() {
     const userId = useRecoilValue(loginIdAtom);
@@ -35,7 +36,7 @@ function InputBoard() {
     };
     const handleSubmitButtonClick = async () => {
         if (!title || !contents)
-            return alert('제목과 내용은 필수로 입력해주세요');
+            return alert('제목 또는 내용은 필수로 입력해주세요');
         const newBoard = {
             title,
             contents,
@@ -58,9 +59,11 @@ function InputBoard() {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                글쓰기
-            </Button>
+            {userId !== '' ? (
+                <Stbutton onClick={handleShow}>글쓰기</Stbutton>
+            ) : (
+                <></>
+            )}
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -122,3 +125,17 @@ function InputBoard() {
 }
 
 export default InputBoard;
+
+const Stbutton = styled.div`
+    margin: 20px auto;
+    border-radius: 5px;
+    width: 100px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #e3dede;
+    color: black;
+    &:hover {
+        background-color: #5e5e5f;
+        color: white;
+    }
+`;

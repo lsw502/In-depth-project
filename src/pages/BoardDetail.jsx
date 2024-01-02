@@ -26,7 +26,7 @@ const BoardDetail = () => {
     );
 
     if (isLoading) {
-        return <h1>로딩중입니다...</h1>;
+        return <h1>loading...</h1>;
     }
 
     return (
@@ -35,10 +35,9 @@ const BoardDetail = () => {
             <Stnickname>{data.nickname} 님</Stnickname>
             <Stline />
             <Stcontent>{data.contents}</Stcontent>
-
             {userId === data.writer ? (
-                <>
-                    <button
+                <Stwrapper>
+                    <Stbutton
                         onClick={() => {
                             mutation.mutate(data.id);
                             console.log(data.id);
@@ -46,15 +45,15 @@ const BoardDetail = () => {
                         }}
                     >
                         삭제
-                    </button>
-                    <button
+                    </Stbutton>
+                    <Stbutton
                         onClick={() => {
                             navigate('/board');
                         }}
                     >
                         돌아가기
-                    </button>
-                </>
+                    </Stbutton>
+                </Stwrapper>
             ) : (
                 <button
                     onClick={() => {
@@ -85,7 +84,7 @@ const Sttitle = styled.div`
 `;
 
 const Stnickname = styled.div``;
-const Stcontent = styled.textarea`
+const Stcontent = styled.div`
     margin-bottom: 50px;
     padding: 30px;
     font-size: 20px;
@@ -98,4 +97,24 @@ const Stline = styled.div`
     width: 100%;
     margin-top: 20px;
     margin-bottom: 20px;
+`;
+
+const Stwrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+`;
+
+const Stbutton = styled.button`
+    padding: 10px;
+    width: 100px;
+    border: none;
+    cursor: pointer;
+    background-color: #e3dede;
+    color: black;
+    &:hover {
+        background-color: #5e5e5f;
+        color: white;
+        box-shadow: 200px 0 0 0 rgba(0, 0, 0, 0.5) inset;
+    }
 `;
