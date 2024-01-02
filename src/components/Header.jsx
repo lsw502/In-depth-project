@@ -1,7 +1,7 @@
 // Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { getAuth, signOut } from '@firebase/auth';
 // import { useDispatch } from 'react-redux';
 
@@ -9,7 +9,8 @@ const Navbar = () => {
     // const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(false);
     // const uid = localStorage.getItem('uid');
-    // const [login, setLogin] = useState(!!uid);
+    // const [login, setLogin] = useState(!!uid);    const navigate = useNavigate();
+
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -34,17 +35,25 @@ const Navbar = () => {
     //     }
     // };
 
+    const handleHomeClick = () => {
+        navigate('/');
+        window.location.reload();
+    };
+
     return (
         <NavbarWrapper>
             <NavLinks>
                 <NavLinkItem>
-                    <Link to="/">애니잇</Link>
+                    <Link to="/" onClick={handleHomeClick}>
+                        애니잇
+                    </Link>
                 </NavLinkItem>
             </NavLinks>
-
             <NavLinks>
                 <NavLinkItem>
-                    <Link to="/">홈</Link>
+                    <Link to="/" onClick={handleHomeClick}>
+                        홈
+                    </Link>
                 </NavLinkItem>
                 <NavLinkItem>
                     <Link to="/board">게시판</Link>

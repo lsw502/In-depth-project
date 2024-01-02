@@ -182,14 +182,14 @@ const Main = () => {
                 {searchResults.length > 0
                     ? searchResults.map((item) => (
                           <MovieCard
-                              key={item.id}
+                              key={`search-${item.id}`}
                               movie={item}
                               genres={genreData}
                           />
                       ))
                     : filteredMovies.map((item) => (
                           <MovieCard
-                              key={item.id}
+                              key={`filtered-${item.id}`}
                               movie={item}
                               genres={genreData}
                           />

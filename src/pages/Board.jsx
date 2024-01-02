@@ -48,6 +48,7 @@ const Board = () => {
                                 }}
                             >
                                 <div> {item.title}</div>
+                                <div> {item.createdAt}</div>
                             </Stwrapper>
                         );
                     })}
@@ -60,13 +61,14 @@ const Board = () => {
 export default Board;
 
 const Stwrapper = styled.div`
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
-        rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
-    background-color: lightskyblue;
     border-radius: 3px;
+    border: 1px solid black;
     margin: 10px;
     width: 500px;
-    padding: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
 `;
 
 const InputWrapper = styled.div`
@@ -78,5 +80,5 @@ const InputWrapper = styled.div`
     align-items: center;
     border: 1px solid black;
     margin: 20px;
-    padding: 20px;
+    padding: 40px;
 `;
