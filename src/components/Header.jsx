@@ -1,10 +1,11 @@
 // Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [isMobile, setIsMobile] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleResize = () => {
@@ -20,12 +21,20 @@ const Navbar = () => {
         };
     }, []);
 
+    const handleHomeClick = () => {
+        // "홈"으로 이동 시에 새로고침 없이 라우팅 처리
+        navigate('/');
+        window.location.reload();
+    };
+
     return (
         <NavbarWrapper className={isMobile ? 'mobile' : ''}>
             <div className="logo">{isMobile ? '애니잇' : '애니잇'}</div>
             <NavLinks>
                 <NavLinkItem>
-                    <Link to="/">홈</Link>
+                    <Link to="/" onClick={handleHomeClick}>
+                        홈
+                    </Link>
                 </NavLinkItem>
                 <NavLinkItem>
                     <Link to="/board">게시판</Link>

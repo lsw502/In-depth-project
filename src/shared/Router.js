@@ -5,6 +5,7 @@ import BoardDetail from '../pages/BoardDetail';
 import Layout from '../layout/Layout';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup';
+import Detail from 'components/Detail';
 
 const Router = () => {
     return (
@@ -12,6 +13,7 @@ const Router = () => {
             <Routes>
                 <Route element={<Layout />}>
                     <Route path="/" element={<Home />} />
+                    <Route path="/movies/:movieId" element={<Detail />} />
                     <Route path="/board" element={<Board />} />
                     <Route path="/board/:id" element={<BoardDetail />} />
                     <Route path="/login" element={<Login />} />
