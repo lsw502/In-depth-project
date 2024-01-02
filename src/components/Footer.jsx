@@ -9,6 +9,7 @@ export default Footer;
 
 const Stwrapper = styled.div`
     background-color: black;
+    width: 100%;
     padding: 50px;
     color: white;
 `;

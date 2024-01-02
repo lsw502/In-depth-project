@@ -21,8 +21,12 @@ const Navbar = () => {
     }, []);
 
     return (
-        <NavbarWrapper className={isMobile ? 'mobile' : ''}>
-            <div className="logo">{isMobile ? '애니잇' : '애니잇'}</div>
+        <NavbarWrapper>
+            <NavLinks>
+                <NavLinkItem>
+                    <Link to="/">애니잇</Link>
+                </NavLinkItem>
+            </NavLinks>
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/">홈</Link>
@@ -31,7 +35,7 @@ const Navbar = () => {
                     <Link to="/board">게시판</Link>
                 </NavLinkItem>
                 <NavLinkItem>
-                    <Link to="/login">마이페이지</Link>
+                    <Link to="/login">로그인</Link>
                 </NavLinkItem>
             </NavLinks>
         </NavbarWrapper>
@@ -41,6 +45,7 @@ const Navbar = () => {
 export default Navbar;
 
 const NavbarWrapper = styled.nav`
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
