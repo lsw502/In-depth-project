@@ -34,14 +34,25 @@ function InputBoard() {
         setContent(event.target.value);
     };
     const handleSubmitButtonClick = async () => {
+        if (!title || !contents)
+            return alert('제목과 내용은 필수로 입력해주세요');
         const newBoard = {
             title,
             contents,
             writer: userId,
-            nickname: userNickname
+            nickname: userNickname,
+            createdAt: new Date().toLocaleDateString('ko', {
+                year: '2-digit',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            })
         };
         mutation.mutate(newBoard);
-
+        setTitle('');
+        setContent('');
         handleClose();
     };
 

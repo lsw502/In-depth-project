@@ -71,9 +71,9 @@ const BoardDetail = () => {
 export default BoardDetail;
 
 const Stwapper = styled.div`
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
-
+    width: 1000px;
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
         rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `;
@@ -85,10 +85,12 @@ const Sttitle = styled.div`
 `;
 
 const Stnickname = styled.div``;
-const Stcontent = styled.div`
+const Stcontent = styled.textarea`
     margin-bottom: 50px;
-    padding-left: 20px;
+    padding: 30px;
     font-size: 20px;
+    width: 100%;
+    height: 500px;
 `;
 
 const Stline = styled.div`
