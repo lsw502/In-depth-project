@@ -22,14 +22,19 @@ const Navbar = () => {
     }, []);
 
     const handleHomeClick = () => {
-        // "홈"으로 이동 시에 새로고침 없이 라우팅 처리
         navigate('/');
         window.location.reload();
     };
 
     return (
-        <NavbarWrapper className={isMobile ? 'mobile' : ''}>
-            <div className="logo">{isMobile ? '애니잇' : '애니잇'}</div>
+        <NavbarWrapper>
+            <NavLinks>
+                <NavLinkItem>
+                    <Link to="/" onClick={handleHomeClick}>
+                        애니잇
+                    </Link>
+                </NavLinkItem>
+            </NavLinks>
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/" onClick={handleHomeClick}>
