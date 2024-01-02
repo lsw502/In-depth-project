@@ -3,19 +3,18 @@ import styled from 'styled-components';
 import { auth } from '../firebase/firebase';
 import {
     signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
+    onAuthStateChanged
+    // signOut
 } from 'firebase/auth';
-import { GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider } from 'firebase/auth';
 import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import googlelogo from '../assets/google-logo-icon.png';
-import githublogo from '../assets/github-logo-icon.png';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { loginIdAtom } from 'recoil/Atom';
+// import { loginIdAtom } from 'recoil/Atom';
 
 function Login() {
-    const [userId, setUserId] = useRecoilState(loginIdAtom);
+    // const [userId, setUserId] = useRecoilState(loginIdAtom);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
@@ -51,19 +50,19 @@ function Login() {
     };
 
     // 깃 허브 로그인
-    const handleGithubSignIn = async () => {
-        const provider = new GithubAuthProvider();
-        // const auth = getAuth();
+    // const handleGithubSignIn = async () => {
+    //     const provider = new GithubAuthProvider();
+    //     // const auth = getAuth();
 
-        try {
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-            navigate('/');
-            console.log(user);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    //     try {
+    //         const result = await signInWithPopup(auth, provider);
+    //         const user = result.user;
+    //         navigate('/');
+    //         console.log(user);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     const handleClickSignIn = async (event) => {
         event.preventDefault();
@@ -77,7 +76,7 @@ function Login() {
             console.log('로그인완료');
             alert(`안녕하세요`);
             setCurrentUser(userCredential.user.email);
-            setUserId(email);
+            // setUserId(email);
             navigate('/');
         } catch (error) {
             alert('이메일,비밀번호를 확인해주세요.');
@@ -86,72 +85,70 @@ function Login() {
     };
 
     return (
-        <>
-            {currentUser ? (
-                <>
-                    <div>{currentUser}</div>
-                    <button
-                        onClick={async () => {
-                            alert('로그아웃 하시겠습니까?');
-                            await signOut(auth);
-                            setCurrentUser(null);
-                            localStorage.removeItem('userInfo');
-                            localStorage.removeItem('usernicknameInfo');
+        // <>
+        //     {currentUser ? (
+        //         <>
+        //             <div>{currentUser}</div>
+        //             <button
+        //                 onClick={async () => {
+        //                     alert('로그아웃 하시겠습니까?');
+        //                     // await signOut(auth);
+        //                     setCurrentUser(null);
+        //                     localStorage.removeItem('userInfo');
+        //                     localStorage.removeItem('usernicknameInfo');
+        //                 }}
+        //             >
+        //                 로그아웃
+        //             </button>
+        //         </>
+        //     ) : (
+        <LoginWrapper>
+            <LoginForm>
+                <h2>애니잇</h2>
+                <FormLabel>
+                    <FormInput
+                        type="email"
+                        value={email}
+                        placeholder="이메일"
+                        onChange={(e) => {
+                            setEmail(e.target.value);
                         }}
-                    >
-                        로그아웃
-                    </button>
-                </>
-            ) : (
-                <LoginWrapper>
-                    <LoginForm>
-                        <h2>애니잇</h2>
-                        <FormLabel>
-                            <FormInput
-                                type="email"
-                                value={email}
-                                placeholder="이메일"
-                                onChange={(e) => {
-                                    setEmail(e.target.value);
-                                }}
-                            />
-                        </FormLabel>
+                    />
+                </FormLabel>
 
-                        <FormLabel>
-                            <FormInput
-                                type="password"
-                                value={password}
-                                placeholder="비밀번호 입력"
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
-                            />
-                        </FormLabel>
+                <FormLabel>
+                    <FormInput
+                        type="password"
+                        value={password}
+                        placeholder="비밀번호 입력"
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                        }}
+                    />
+                </FormLabel>
 
-                        <FormButton onClick={handleClickSignIn}>
-                            로그인
-                        </FormButton>
+                <FormButton onClick={handleClickSignIn}>로그인</FormButton>
 
-                        <SocialLogin>소셜계정으로 로그인</SocialLogin>
+                <SocialLogin>소셜계정으로 로그인</SocialLogin>
 
-                        <Socialcontanier>
-                            {/* Google 소셜 로그인 버튼  */}
-                            <GoogleLogin onClick={handleClickGoogle} />
-                            {/* github 소셜 로그인 버튼 */}
-                            <GitHubLogin onClick={handleGithubSignIn} />
-                        </Socialcontanier>
+                <Socialcontanier>
+                    {/* Google 소셜 로그인 버튼  */}
+                    <GoogleLogin onClick={handleClickGoogle} />
+                    {/* github 소셜 로그인 버튼
+                            <GitHubLogin onClick={handleGithubSignIn} /> */}
+                </Socialcontanier>
 
-                        <SignupButton
-                            onClick={() => {
-                                navigate('/signup');
-                            }}
-                        >
-                            회원가입
-                        </SignupButton>
-                    </LoginForm>
-                </LoginWrapper>
-            )}
-        </>
+                <SignupButton
+                    onClick={() => {
+                        navigate('/signup');
+                    }}
+                >
+                    회원가입
+                </SignupButton>
+            </LoginForm>
+        </LoginWrapper>
+        //     )}
+        // </>
     );
 }
 
@@ -213,16 +210,16 @@ const GoogleLogin = styled.button`
     background-color: transparent;
     cursor: pointer;
 `;
-const GitHubLogin = styled.button`
-    background-image: url(${githublogo});
-    width: 30px;
-    height: 30px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-`;
+// const GitHubLogin = styled.button`
+//     background-image: url(${githublogo});
+//     width: 30px;
+//     height: 30px;
+//     background-size: 100%;
+//     background-repeat: no-repeat;
+//     border: none;
+//     background-color: transparent;
+//     cursor: pointer;
+// `;
 
 const Socialcontanier = styled.div`
     display: flex;

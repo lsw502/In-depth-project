@@ -2,10 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+// import { getAuth, signOut } from '@firebase/auth';
+// import { useDispatch } from 'react-redux';
 
 const Navbar = () => {
+    // const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(false);
-
+    // const uid = localStorage.getItem('uid');
+    // const [login, setLogin] = useState(!!uid);
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -20,6 +24,16 @@ const Navbar = () => {
         };
     }, []);
 
+    // const auth = getAuth();
+
+    // const handlelogout = async () => {
+    //     if (uid) {
+    //         await signOut(auth);
+    //         setLogin(false);
+    //         dispatch();
+    //     }
+    // };
+
     return (
         <NavbarWrapper>
             <NavLinks>
@@ -27,6 +41,7 @@ const Navbar = () => {
                     <Link to="/">애니잇</Link>
                 </NavLinkItem>
             </NavLinks>
+
             <NavLinks>
                 <NavLinkItem>
                     <Link to="/">홈</Link>
@@ -34,8 +49,12 @@ const Navbar = () => {
                 <NavLinkItem>
                     <Link to="/board">게시판</Link>
                 </NavLinkItem>
+
                 <NavLinkItem>
                     <Link to="/login">로그인</Link>
+                    {/* <Link onClick={handlelogout} to="/login">
+                        {login ? '로그아웃' : '로그인'}
+                    </Link> */}
                 </NavLinkItem>
             </NavLinks>
         </NavbarWrapper>
@@ -73,8 +92,3 @@ const NavLinkItem = styled.li`
         color: white; /* Set link color */
     }
 `;
-// const LoginButton = styled.button`
-//     border: none;
-//     background-color: transparent;
-//     cursor: pointer;
-// `;
