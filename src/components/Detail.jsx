@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Detail = () => {
     const { movieId } = useParams();
@@ -54,42 +55,104 @@ const Detail = () => {
     }
 
     return (
-        <div>
-            <h2>{movieDetail.name}</h2>
-            <img
-                src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`}
-                alt={movieDetail.name}
-                style={{ maxWidth: '100%', height: 'auto' }}
-            />
-            <p>평점: {movieDetail.vote_average}</p>
-            <p>
-                장르: {movieDetail.genres.map((genre) => genre.name).join(', ')}
-            </p>
-            <p>내용: {movieDetail.overview}</p>
-
-            {videos.length > 0 ? (
-                <div>
-                    <h3>동영상</h3>
-                    <ul>
-                        {videos.map((video) => (
-                            <li key={video.key}>
-                                <iframe
-                                    width="560"
-                                    height="315"
-                                    src={`https://www.youtube.com/embed/${video.key}`}
-                                    title={video.name}
-                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ) : (
-                <h1>영상이 없습니다.</h1>
-            )}
-        </div>
+        <MainContainer>
+            <Container>
+                <MovieTitle>{movieDetail.name}</MovieTitle>
+                <MovieImage
+                    src={`https://image.tmdb.org/t/p/w500/${movieDetail.poster_path}`}
+                    alt={movieDetail.name}
+                />
+                <MovieInfo>평점: {movieDetail.vote_average}</MovieInfo>
+                <MovieInfo>
+                    장르:{' '}
+                    {movieDetail.genres.map((genre) => genre.name).join(', ')}
+                </MovieInfo>
+                <MovieInfo>내용: {movieDetail.overview}</MovieInfo>
+            </Container>
+            <VideoContainer>
+                {videos.length > 0 ? (
+                    <>
+                        <VideoTitle>동영상</VideoTitle>
+                        <VideoList>
+                            {videos.map((video) => (
+                                <VideoItem key={video.key}>
+                                    <VideoFrame
+                                        src={`https://www.youtube.com/embed/${video.key}`}
+                                        title={video.name}
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></VideoFrame>
+                                </VideoItem>
+                            ))}
+                        </VideoList>
+                    </>
+                ) : (
+                    <NoVideoMessage>영상이 없습니다.</NoVideoMessage>
+                )}
+            </VideoContainer>
+        </MainContainer>
     );
 };
 
 export default Detail;
+
+const MainContainer = styled.div`
+    display: flex;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-wrap: wrap;
+`;
+
+const Container = styled.div`
+    max-width: 400px;
+    padding: 20px;
+    width: 1000px;
+`;
+
+const MovieTitle = styled.h2`
+    font-size: 28px;
+    margin-bottom: 10px;
+`;
+
+const MovieImage = styled.img`
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+`;
+
+const MovieInfo = styled.p`
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 750px;
+`;
+
+const VideoContainer = styled.div`
+    max-width: 800px;
+    padding: 20px;
+    width: 1000px;
+`;
+
+const VideoTitle = styled.h3`
+    font-size: 20px;
+    margin-bottom: 10px;
+`;
+
+const VideoList = styled.ul`
+    list-style: none;
+    padding: 0;
+`;
+
+const VideoItem = styled.li`
+    margin-bottom: 20px;
+`;
+
+const VideoFrame = styled.iframe`
+    width: 100%;
+    height: 315px;
+`;
+
+const NoVideoMessage = styled.h1`
+    font-size: 24px;
+    margin-top: 20px;
+`;
