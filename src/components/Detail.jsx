@@ -6,6 +6,7 @@ const Detail = () => {
     const { movieId } = useParams();
     const [movieDetail, setMovieDetail] = useState(null);
     const [videos, setVideos] = useState([]);
+    const apiKey = process.env.REACT_APP_API_KEY;
 
     useEffect(() => {
         const fetchMovieDetail = async () => {
@@ -13,8 +14,7 @@ const Detail = () => {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
-                    Authorization:
-                        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYmEyYzIzMWRjMTQxMGEzNjk3ZWEzOWQyMjY2M2IwZiIsInN1YiI6IjY1MzBlZmMzNTFhNjRlMDBjOGZkY2I5OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jYFT5VOAZYR9SPBGGB16_GUZgiU7Bmkvz6G-5Qwiw48'
+                    Authorization: `Bearer ${apiKey}`
                 }
             };
 
