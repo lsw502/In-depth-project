@@ -1,29 +1,35 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-// const authSlice = createSlice({
-//     name: 'auth',
-//     initialState: {
-//         nickname: null,
-//         email: null,
-//         isAuthenticated: false,
-//     },
-//     reducers: {
-//         logout: (state) => {
-//             state.nickname = null;
-//             state.email = null;
-//             state.isAuthenticated = false;
-
-//         },
-
-
-
-
-//     },
-// });
-
-// export const { logout } = authSlice.actions;
-// export default authSlice.reducer;
-
-
-
-
+const initialState = {
+    isLogin: !!localStorage.getItem("uid"),
+    email: localStorage.getItem("email"),
+    displayName: localStorage.getItem("displayName"),
+    uid: localStorage.getItem("uid"),
+};
+const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        login: (state, action) => {
+            const { email, displayName, uid, photoURL } = action.payload;
+            localStorage.setItem("email", email);
+            localStorage.setItem("displayName", displayName);
+            localStorage.setItem("uid", uid);
+            state.isLogin = true;
+            state.email = email;
+            state.displayName = displayName;
+            state.uid = uid;
+            console.log(displayName);
+        },
+        logout: (state, action) => {
+            localStorage.clear();
+            return (state = {});
+        },
+        updateNickname: (state, action) => {
+            localStorage.setItem("displayName", action.payload);
+            state.displayName = action.payload;
+        },
+    },
+});
+export const { login, logout, updateNickname } = authSlice.actions;
+export default authSlice.reducer;

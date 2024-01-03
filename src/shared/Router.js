@@ -10,27 +10,6 @@ import Detail from 'components/Detail';
 
 const Router = () => {
     return (
-<<<<<<< HEAD
-        <>
-
-            <BrowserRouter>
-
-                <Routes>
-                    <Route element={<Layout />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/board" element={<Board />} />
-                        <Route path="/board/:id" element={<BoardDetail />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
-
-                    </Route>
-                </Routes>
-
-            </BrowserRouter>
-        </>
-
-
-=======
         <BrowserRouter>
             <Routes>
                 <Route element={<Layout />}>
@@ -43,7 +22,6 @@ const Router = () => {
                 </Route>
             </Routes>
         </BrowserRouter>
->>>>>>> a4a6fcb38b0118923e14912d3e043e4cc7dd7896
     );
 };
 

@@ -3,137 +3,131 @@ import styled from 'styled-components';
 import { auth } from '../firebase/firebase';
 import {
     signInWithEmailAndPassword,
-    onAuthStateChanged
-    // signOut
+    signInWithPopup,
+    GoogleAuthProvider
 } from 'firebase/auth';
-import { GoogleAuthProvider } from 'firebase/auth';
-import { signInWithPopup } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import googlelogo from '../assets/google-logo-icon.png';
+import { useDispatch } from 'react-redux';
+import { login } from 'store/authSlice';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-// import { loginIdAtom } from 'recoil/Atom';
+import { loginIdAtom } from 'recoil/Atom';
 
 function Login() {
-    // const [userId, setUserId] = useRecoilState(loginIdAtom);
+    const [userId, setUserId] = useRecoilState(loginIdAtom);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [inputs, setInputs] = useState({
+        email: '',
+        password: ''
+    });
+
+    const changeInputs = (e) => {
+        setInputs({
+            ...inputs,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const resetInputs = () => {
+        setInputs({
+            email: '',
+            password: ''
+        });
+    };
+
+    const checkInputs = () => {
+        if (
+            inputs.email.trim().length === 0 ||
+            inputs.password.trim().length === 0
+        ) {
+            alert('이메일과 비밀번호 모두 입력해주세요');
+            resetInputs();
+            return;
+        }
+        if (!inputs.email.includes('@')) {
+            alert('이메일 형식으로 입력해주세요');
+            resetInputs();
+            return;
+        }
+    };
+
+    const loginEmail = async (e) => {
+        e.preventDefault();
+        checkInputs();
+        try {
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                inputs.email,
+                inputs.password
+            );
+            alert('로그인 되었습니다!');
+            localStorage.setItem(
+                'accessToken',
+                userCredential.user.accessToken
+            );
+            dispatch(login(userCredential.user));
+            navigate('/');
+        } catch (error) {
+            console.error(error);
+            alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
+
+    const loginGoogle = async (e) => {
+        e.preventDefault();
+        const provider = new GoogleAuthProvider();
+        try {
+            const userCredential = await signInWithPopup(auth, provider);
+            alert('로그인 되었습니다!');
+            localStorage.setItem(
+                'accessToken',
+                userCredential.user.accessToken
+            );
+            navigate('/');
+            dispatch(login(userCredential.user));
+        } catch (error) {
+            console.log(error.message);
+            alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [currentUser, setCurrentUser] = useState(null);
 
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user?.email);
-        });
-    }, []);
-
-    const navigate = useNavigate();
-
-    // 구글 로그인
-    const signInWithGoogle = async () => {
-        const googleProvider = new GoogleAuthProvider();
-        signInWithPopup(auth, googleProvider)
-            .then((res) => {
-                const credential = GoogleAuthProvider.credentialFromResult(res);
-                const token = credential.accessToken;
-                const userName = res.user.displayName;
-
-                // local storage에 token, username 저장해주기
-                console.log(token);
-                console.log(userName);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-    const handleClickGoogle = async (event) => {
-        event.preventDefault();
-        await signInWithGoogle();
-    };
-
-    // 깃 허브 로그인
-    // const handleGithubSignIn = async () => {
-    //     const provider = new GithubAuthProvider();
-    //     // const auth = getAuth();
-
-    //     try {
-    //         const result = await signInWithPopup(auth, provider);
-    //         const user = result.user;
-    //         navigate('/');
-    //         console.log(user);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-    const handleClickSignIn = async (event) => {
-        event.preventDefault();
-        try {
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-            console.log(userCredential);
-            console.log('로그인완료');
-            alert(`안녕하세요`);
-            setCurrentUser(userCredential.user.email);
-            // setUserId(email);
-            navigate('/');
-        } catch (error) {
-            alert('이메일,비밀번호를 확인해주세요.');
-            console.error(error);
-        }
-    };
-
     return (
-        // <>
-        //     {currentUser ? (
-        //         <>
-        //             <div>{currentUser}</div>
-        //             <button
-        //                 onClick={async () => {
-        //                     alert('로그아웃 하시겠습니까?');
-        //                     // await signOut(auth);
-        //                     setCurrentUser(null);
-        //                     localStorage.removeItem('userInfo');
-        //                     localStorage.removeItem('usernicknameInfo');
-        //                 }}
-        //             >
-        //                 로그아웃
-        //             </button>
-        //         </>
-        //     ) : (
         <LoginWrapper>
             <LoginForm>
                 <h2>애니잇</h2>
                 <FormLabel>
                     <FormInput
                         type="email"
-                        value={email}
+                        name="email"
+                        value={inputs.email}
                         placeholder="이메일"
-                        onChange={(e) => {
-                            setEmail(e.target.value);
-                        }}
+                        onChange={changeInputs}
                     />
                 </FormLabel>
 
                 <FormLabel>
                     <FormInput
                         type="password"
-                        value={password}
+                        name="password"
+                        value={inputs.password}
                         placeholder="비밀번호 입력"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                        }}
+                        onChange={changeInputs}
                     />
                 </FormLabel>
 
-                <FormButton onClick={handleClickSignIn}>로그인</FormButton>
+                <FormButton onClick={loginEmail}>로그인</FormButton>
 
                 <SocialLogin>소셜계정으로 로그인</SocialLogin>
 
                 <Socialcontanier>
                     {/* Google 소셜 로그인 버튼  */}
-                    <GoogleLogin onClick={handleClickGoogle} />
+                    <GoogleLogin onClick={loginGoogle} />
                     {/* github 소셜 로그인 버튼
                             <GitHubLogin onClick={handleGithubSignIn} /> */}
                 </Socialcontanier>

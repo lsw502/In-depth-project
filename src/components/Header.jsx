@@ -1,15 +1,14 @@
-// Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-// import { getAuth, signOut } from '@firebase/auth';
-// import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from 'store/authSlice';
 
 const Navbar = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false);
-    // const uid = localStorage.getItem('uid');
-    // const [login, setLogin] = useState(!!uid);    const navigate = useNavigate();
+    const isLogin = useSelector((state) => state.authSlice.isLogin);
 
     useEffect(() => {
         const handleResize = () => {
@@ -25,19 +24,15 @@ const Navbar = () => {
         };
     }, []);
 
-    // const auth = getAuth();
-
-    // const handlelogout = async () => {
-    //     if (uid) {
-    //         await signOut(auth);
-    //         setLogin(false);
-    //         dispatch();
-    //     }
-    // };
-
     const handleHomeClick = () => {
         navigate('/');
         window.location.reload();
+    };
+
+    const handleLogoutClick = () => {
+        alert('정말 로그아웃 하시겠습니까?');
+        dispatch(logout());
+        navigate('/');
     };
 
     return (
@@ -59,12 +54,15 @@ const Navbar = () => {
                     <Link to="/board">게시판</Link>
                 </NavLinkItem>
 
-                <NavLinkItem>
-                    <Link to="/login">로그인</Link>
-                    {/* <Link onClick={handlelogout} to="/login">
-                        {login ? '로그아웃' : '로그인'}
-                    </Link> */}
-                </NavLinkItem>
+                {isLogin ? (
+                    <NavLinkItem>
+                        <button onClick={handleLogoutClick}>로그아웃</button>
+                    </NavLinkItem>
+                ) : (
+                    <NavLinkItem>
+                        <Link to="/login">로그인</Link>
+                    </NavLinkItem>
+                )}
             </NavLinks>
         </NavbarWrapper>
     );
