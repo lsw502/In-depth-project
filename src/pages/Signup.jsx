@@ -88,7 +88,10 @@ function Signup() {
                 inputs.password
             );
             alert('회원가입이 되었습니다!');
-            navigate('/login');
+
+            setuserNickname(inputs.nickname);
+            setUserId(inputs.email);
+            navigate('/');
         } catch (error) {
             alert(errorMsg(error.code));
         }
@@ -153,8 +156,6 @@ function Signup() {
                             //             password
                             //         );
 
-                            //         setuserNickname(nickname);
-                            //         setUserId(email);
                             //         console.log('회원가입 완료');
                             //         alert(`안녕하세요`);
                             //         navigate('/');
