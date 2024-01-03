@@ -68,6 +68,7 @@ function Login() {
                 userCredential.user.accessToken
             );
             dispatch(login(userCredential.user));
+
             navigate('/');
         } catch (error) {
             console.error(error);

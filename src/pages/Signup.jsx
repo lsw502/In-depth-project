@@ -91,7 +91,7 @@ function Signup() {
 
             setuserNickname(inputs.nickname);
             setUserId(inputs.email);
-            navigate('/');
+            navigate('/login');
         } catch (error) {
             alert(errorMsg(error.code));
         }
